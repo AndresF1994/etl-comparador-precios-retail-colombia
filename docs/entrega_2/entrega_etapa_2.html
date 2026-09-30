@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Entrega 2 — Informe de avance</title>
+<style>
+  :root { --azul:#1f3a5f; --rojo:#c0392b; --gris:#5b6470; --fila:#eef2f7; --borde:#c9d3df; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, Helvetica, sans-serif; font-size: 10.2pt; line-height: 1.42; color:#1c1c1c;
+         margin:0; text-align: justify; hyphens: auto; background:#fff; }
+  h1 { color: var(--azul); font-size: 16.5pt; text-align:center; margin: 0 0 4px; line-height:1.25; }
+  .sub { text-align:center; color: var(--gris); font-size: 9.6pt; line-height:1.45; }
+  .sub b { color:#222; }
+  hr.sep { border:0; border-top: 1.6px solid var(--azul); margin: 10px 0 12px; }
+  h2 { color: var(--azul); font-size: 13pt; margin: 16px 0 6px; break-after: avoid; }
+  h3 { color: var(--rojo); font-size: 10.8pt; font-style: italic; margin: 11px 0 5px; break-after: avoid; }
+  p { margin: 0 0 7px; }
+  table { width:100%; border-collapse: collapse; font-size: 8.6pt; margin: 5px 0 9px; text-align:left; break-inside: avoid; }
+  th { background: var(--azul); color:#fff; padding: 4px 6px; font-weight:600; }
+  td { padding: 3.5px 6px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  tr:nth-child(even) td { background: var(--fila); }
+  td.n, th.n { text-align:right; white-space: nowrap; }
+  figure { margin: 8px 0 10px; break-inside: avoid; text-align:center; }
+  figure img { width:100%; }
+  figcaption { font-size: 8.3pt; color: var(--gris); text-align:center; margin-top: 3px; line-height:1.35; }
+  .caja { border-left: 3px solid var(--azul); background: #f4f7fb; padding: 6px 10px; margin: 6px 0 9px; font-size: 9.6pt; }
+  .caja.roja { border-left-color: var(--rojo); background:#fbf3f2; }
+  ul { margin: 2px 0 8px 0; padding-left: 18px; } li { margin-bottom: 3px; }
+  code { font-family: Consolas, monospace; font-size: 8.6pt; background:#f1f3f6; padding: 0 3px; border-radius:2px; }
+  .estado { font-size:7.8pt; font-weight:700; padding:1px 5px; border-radius:3px; white-space:nowrap; }
+  .ok { background:#dff0e5; color:#1e6b3a; } .prop { background:#fdf0d8; color:#8a5a00; }
+  .nota { font-size: 8.3pt; color: var(--gris); border-top:1px solid var(--borde); padding-top:5px; margin-top:12px; }
+  .salto { break-before: page; }
+  h1, h2, h3, table, figcaption { hyphens: manual; }
+</style>
+</head>
+<body>
+
+<h1>Diseño e implementación de un pipeline ETL para la extracción, integración y análisis comparativo de precios
+de productos en múltiples plataformas de comercio electrónico colombiano</h1>
+<div class="sub">
+  <b>Entrega 2 — Informe de avance: EDA, calidad de los datos y transformaciones</b><br>
+  Maestría en Inteligencia Artificial y Ciencia de Datos · Asignatura: ETL<br>
+  Nombre: <b>Andres Felipe Pacheco</b> · Septiembre de 2026<br>
+  Enfoque: apoyo a la decisión de compra del consumidor colombiano
+</div>
+<hr class="sep">
+
+<p><b>Resumen.</b> Este informe da continuidad a la iniciativa presentada en la Entrega 1: comparar precios de
+<b>celulares y televisores</b> entre <b>Alkosto, Alkomprar, Éxito y Falabella</b> para que un consumidor sepa dónde
+comprar y cuánto puede ahorrar. Se construyó y ejecutó la primera versión del pipeline (extracción, homologación y carga
+histórica) y, con los <b>3.059 registros crudos</b> obtenidos en dos extracciones (28 y 29 de septiembre de 2026), se
+presenta el análisis exploratorio, el diagnóstico de calidad bajo el modelo de las V's, su impacto sobre el problema y las
+transformaciones que se derivan de esa evidencia. El hallazgo central es que la dificultad del proyecto no está en
+obtener precios, sino en <b>saber cuándo dos publicaciones son el mismo producto</b>: no existe una llave común entre
+tiendas, el 21% de las ofertas válidas no se puede homologar y el 53% del catálogo no está disponible en una tienda dada.</p>
+
+<h2>1. Continuidad con la Entrega 1 y producto de datos esperado</h2>
+<p>La Entrega 1 planteó adquirir la información preferiblemente mediante APIs y usar la extracción web solo como mecanismo
+complementario. Al revisar las cuatro tiendas se confirmó que ninguna expone una API pública de catálogo para terceros,
+por lo que la adquisición se implementó simulando la búsqueda que haría un comprador (una consulta por categoría y marca,
+primera página de resultados, pausas de 4 s entre peticiones y sin paralelismo). En Falabella los datos se leen del JSON
+estructurado que la propia página incluye (<code>__NEXT_DATA__</code>), lo que se acerca al espíritu de "servicio
+estructurado" previsto.</p>
+<p>A diferencia de un proyecto que parte de un catálogo o <i>datafeed</i> entregado por un comercio, aquí el catálogo
+<b>se construye</b>: el pipeline descubre qué productos ofrece cada tienda, los homologa en una clave común
+(<code>producto_id</code>) y guarda una foto diaria. Ese catálogo canónico con histórico es la base del producto de datos
+que se quiere desarrollar: un <b>comparador consultable</b> (en una etapa posterior, un asistente conversacional tipo
+WhatsApp) al que el usuario le pregunte, por ejemplo, <i>"iPhone 17 Pro de 256 GB"</i> y reciba la tienda con el mejor
+precio vigente, el ahorro frente a las demás y si la oferta es buena frente al histórico. Por eso los criterios de calidad
+de este informe se evalúan pensando en una pregunta concreta: <b>¿la respuesta que daría el comparador sería correcta?</b></p>
+
+<h2>2. Datos recolectados y metodología</h2>
+<h3>2.1 Estructura de las fuentes</h3>
+<table>
+  <tr><th>Fuente</th><th>Plataforma / formato de lectura</th><th class="n">Crudos 28-sep<br>(celulares)</th><th class="n">Crudos 29-sep<br>(cel. + TV)</th><th>Identificadores publicados</th></tr>
+  <tr><td>Alkosto</td><td>HTML renderizado (SAP Hybris + Algolia)</td><td class="n">239</td><td class="n">422</td><td>EAN en la URL; sin campo de marca</td></tr>
+  <tr><td>Alkomprar</td><td>HTML renderizado (misma plataforma de Alkosto)</td><td class="n">212</td><td class="n">393</td><td>EAN en la URL; sin campo de marca</td></tr>
+  <tr><td>Éxito</td><td>HTML renderizado (VTEX FastStore)</td><td class="n">158</td><td class="n">256</td><td>Marca; sin EAN; marca de marketplace en la URL</td></tr>
+  <tr><td>Falabella</td><td>JSON embebido (<code>__NEXT_DATA__</code>, Next.js)</td><td class="n">503</td><td class="n">876</td><td>Marca y vendedor; sin EAN</td></tr>
+  <tr><td><b>Total</b></td><td>18 búsquedas × 4 tiendas por día (10 marcas de celular, 8 de TV)</td><td class="n"><b>1.112</b></td><td class="n"><b>1.947</b></td><td>Unidad: producto + tienda + vendedor + fecha</td></tr>
+</table>
+<p>Cada registro crudo contiene: tienda, categoría, marca buscada, nombre publicado, marca publicada, URL, EAN (si existe),
+precio tachado, precio actual y vendedor. Los crudos se conservan sin modificar en <code>data/raw/</code> (un CSV por día) y
+los datos transformados se cargan en SQLite (<code>data/precios.db</code>), separados para garantizar trazabilidad, tal
+como se comprometió en la Entrega 1. La extracción del 28-sep incluyó solo celulares porque los televisores se integraron
+al pipeline el 29-sep; ambas fechas se procesan con exactamente las mismas reglas de transformación.</p>
+
+<h3>2.2 Del dato crudo al dato comparable</h3>
+<p>Para medir la calidad en cada paso se definió un embudo con cinco estados: <b>crudas</b> (todo lo leído),
+<b>válidas</b> (se descartan accesorios, duplicados y precios fuera de rango), <b>homologadas</b> (se identificó marca,
+modelo y variante: almacenamiento en celulares y pulgadas en TV), <b>únicas</b> (se colapsan los colores de un mismo
+producto) y <b>comparables</b> (producto nuevo, vendido por la propia tienda y presente en al menos dos tiendas).</p>
+
+<h2>3. Análisis Exploratorio de Datos (EDA)</h2>
+<h3>3.1 Datos faltantes en los campos crudos</h3>
+<p>En el crudo del 29-sep el <b>14,3%</b> de las celdas de los campos principales está vacío, pero ese faltante es
+<b>totalmente estructural</b>: no se debe a errores de lectura sino a que cada plataforma publica campos distintos
+(Figura 1, izquierda). Alkosto y Alkomprar publican el EAN pero no la marca; Éxito y Falabella publican la marca pero no
+el EAN. Precio, nombre, URL y vendedor están completos en el 100% de los casos. La consecuencia es decisiva para el
+diseño: <b>no existe un identificador común a las cuatro tiendas</b>, de modo que el emparejamiento no puede hacerse por
+EAN y debe hacerse por atributos extraídos del texto.</p>
+<figure>
+  <img src="figuras/fig1_faltantes.png" alt="Faltantes en campos crudos y porcentaje no homologable">
+  <figcaption>Figura 1. Izquierda: % de faltantes por campo y tienda en el dato crudo; los faltantes son complementarios
+  (EAN vs. marca) y no hay llave común. Derecha: % de ofertas válidas a las que no se les pudo identificar marca, modelo o
+  variante; Falabella concentra el problema porque sus títulos con frecuencia omiten el código de modelo.</figcaption>
+</figure>
+
+<h3>3.2 Datos faltantes en los atributos de homologación</h3>
+<table>
+  <tr><th>Atributo derivado</th><th class="n">Celulares (% faltante)</th><th class="n">Televisores (% faltante)</th><th>Causa principal observada</th></tr>
+  <tr><td>Marca</td><td class="n">0,0%</td><td class="n">1,0%</td><td>Casi siempre está en el título o en el campo de marca.</td></tr>
+  <tr><td>Modelo</td><td class="n">18,6%</td><td class="n">20,0%</td><td>Títulos comerciales sin código ("Televisor 65 Pulgadas Smart TV 4K"), submarcas no previstas.</td></tr>
+  <tr><td>Variante (GB / pulgadas)</td><td class="n">3,1%</td><td class="n">2,3%</td><td>Títulos sin capacidad o con tamaño solo en el código.</td></tr>
+  <tr><td><b>No homologable (alguno de los tres)</b></td><td class="n" colspan="2" style="text-align:center"><b>21,0% global</b> · Falabella 29–32% · Alkosto/Alkomprar 11–18% · Éxito 8–10%</td><td>Estas ofertas no pueden participar en la comparación.</td></tr>
+</table>
+<p>Un caso típico: Alkosto publica <i>"TV SAMSUNG 65" 65U8000H 4K-UHD"</i>, Éxito <i>"Televisor SAMSUNG 65 pulgadas …
+UN65U8000HKXZL"</i> y Falabella a veces solo <i>"Televisor Samsung 65 Pulgadas 4K Mini LED 75H + BARRA"</i>. Las dos
+primeras se homologan (código normalizado <code>65u8000h</code>); la tercera no tiene código completo y además es un combo.</p>
+
+<h3>3.3 Productos ausentes por tienda</h3>
+<p>El segundo tipo de faltante, y el más relevante para el consumidor, es la <b>ausencia del producto</b> en una tienda.
+Sobre el catálogo homologado del 29-sep (115 celulares y 180 televisores nuevos vendidos por la propia tienda), el
+<b>52,8%</b> de las combinaciones producto × tienda está vacío. Solo el <b>6%</b> de los productos aparece en las cuatro
+tiendas y cerca del <b>40%</b> aparece en una sola, por lo que no admite comparación.</p>
+<table>
+  <tr><th>Categoría</th><th class="n">Catálogo</th><th class="n">Ausente en Alkosto</th><th class="n">Ausente en Alkomprar</th><th class="n">Ausente en Éxito</th><th class="n">Ausente en Falabella</th><th class="n">En 1 sola tienda</th></tr>
+  <tr><td>Celulares</td><td class="n">115</td><td class="n">41,7%</td><td class="n">49,6%</td><td class="n">53,0%</td><td class="n">70,4%</td><td class="n">42,6%</td></tr>
+  <tr><td>Televisores</td><td class="n">180</td><td class="n">37,2%</td><td class="n">40,0%</td><td class="n">55,0%</td><td class="n">76,7%</td><td class="n">40,0%</td></tr>
+</table>
+<figure>
+  <img src="figuras/fig2_ausencia_embudo.png" alt="Ausencia por tienda y embudo de calidad">
+  <figcaption>Figura 2. Izquierda: % del catálogo homologado que cada tienda no ofrece. Derecha: embudo de calidad del
+  29-sep; Falabella tiene el mayor volumen crudo (876) pero el menor número de ofertas comparables (49), porque el 84,5%
+  de sus ofertas válidas son de vendedores externos (marketplace) y casi un tercio no es homologable.</figcaption>
+</figure>
+<p>Hay que diferenciar la ausencia real de la aparente. Parte de la ausencia en Falabella es aparente: el producto sí
+existe, pero lo vende un tercero (se excluye para comparar tienda contra tienda) o su título no trae el código. Parte es
+real: cada tienda tiene surtido propio. Por esto, <b>la ausencia no se imputa</b>: un precio inexistente no se rellena, se
+registra como "no disponible", porque para el comprador esa es información válida.</p>
+<figure>
+  <img src="figuras/fig3_presencia.png" alt="Número de tiendas por producto y solapamiento de catálogos">
+  <figcaption>Figura 3. Izquierda: distribución del número de tiendas en que aparece cada producto homologado. Derecha:
+  superposición de catálogos; el 90% de lo que ofrece Alkomprar también está en Alkosto, mientras que entre Éxito y
+  Falabella la coincidencia es de apenas 19–33%.</figcaption>
+</figure>
+
+<h3>3.4 Alkosto y Alkomprar: dos fuentes que no son independientes</h3>
+<p>El 71% de los EAN publicados por Alkosto y Alkomprar coincide (291 de 408), y en el <b>100%</b> de esos 291 productos
+comunes el precio es idéntico. Ambas tiendas pertenecen al mismo grupo comercial y comparten plataforma, catálogo y
+política de precios. De los 174 productos comparables del 29-sep, <b>79 (45%) solo están en Alkosto y Alkomprar</b>, y
+todos tienen brecha de precio cero: son comparaciones aparentes que no le aportan información al comprador. Por eso las
+brechas de precio de este informe se calculan solo sobre productos presentes en al menos <b>dos grupos
+comerciales</b> (Alkosto/Alkomprar, Éxito y Falabella).</p>
+
+<h3>3.5 Estadística descriptiva del precio (productos nuevos, 29-sep)</h3>
+<table>
+  <tr><th>Categoría</th><th>Tienda</th><th class="n">n</th><th class="n">Mediana (M COP)</th><th class="n">Media (M COP)</th><th class="n">Mín. (M COP)</th><th class="n">Máx. (M COP)</th><th class="n">Coef. variación</th></tr>
+  <tr><td rowspan="4">Celulares</td><td>Alkosto</td><td class="n">179</td><td class="n">1,15</td><td class="n">2,00</td><td class="n">0,40</td><td class="n">8,87</td><td class="n">93%</td></tr>
+  <tr><td>Alkomprar</td><td class="n">163</td><td class="n">1,15</td><td class="n">1,88</td><td class="n">0,35</td><td class="n">8,87</td><td class="n">91%</td></tr>
+  <tr><td>Éxito</td><td class="n">124</td><td class="n">1,06</td><td class="n">1,24</td><td class="n">0,31</td><td class="n">8,00</td><td class="n">79%</td></tr>
+  <tr><td>Falabella</td><td class="n">368</td><td class="n">0,90</td><td class="n">1,40</td><td class="n">0,32</td><td class="n">11,72</td><td class="n">112%</td></tr>
+  <tr><td rowspan="4">Televisores</td><td>Alkosto</td><td class="n">126</td><td class="n">2,52</td><td class="n">3,85</td><td class="n">0,51</td><td class="n">40,00</td><td class="n">119%</td></tr>
+  <tr><td>Alkomprar</td><td class="n">122</td><td class="n">2,50</td><td class="n">3,33</td><td class="n">0,51</td><td class="n">20,10</td><td class="n">91%</td></tr>
+  <tr><td>Éxito</td><td class="n">100</td><td class="n">1,70</td><td class="n">2,03</td><td class="n">0,50</td><td class="n">9,00</td><td class="n">68%</td></tr>
+  <tr><td>Falabella</td><td class="n">261</td><td class="n">1,90</td><td class="n">2,46</td><td class="n">0,31</td><td class="n">13,60</td><td class="n">80%</td></tr>
+</table>
+<p>La media supera ampliamente a la mediana en todas las tiendas (asimetría a la derecha) y el coeficiente de variación
+está entre 68% y 119%: los precios abarcan desde gama de entrada hasta gama alta (un TV de 115" a 40 M COP). Comparar
+promedios entre tiendas sería engañoso porque cada una tiene una mezcla de surtido diferente: la mediana más baja de
+Éxito y Falabella refleja más productos económicos, no precios más bajos. <b>La comparación válida es producto contra
+producto</b>, lo que refuerza la necesidad de la homologación. Con la regla IQR dentro de cada marca se identifican 100
+valores atípicos (7,0%); todos están por encima de la mediana de su marca y, al revisarlos, corresponden a modelos de
+gama alta legítimos (OLED de 77", Mini LED de 85–98", celulares de 512 GB), no a errores de lectura, por lo que no se eliminan.</p>
+<figure>
+  <img src="figuras/fig4_precios_descuentos.png" alt="Distribución de precios y descuentos publicados">
+  <figcaption>Figura 4. Izquierda y centro: distribución del precio actual por tienda (escala logarítmica). Derecha:
+  distribución del descuento publicado frente al precio tachado; más del 91% de las ofertas de cada tienda anuncia
+  descuento, con medianas entre 34% y 48%, y existe una cola por encima del 60%.</figcaption>
+</figure>
+
+<h3>3.6 Descuentos publicados</h3>
+<p>Entre el 91% y el 97% de las ofertas de cada tienda muestra un precio tachado, con un descuento mediano del 39% en
+Alkosto/Alkomprar, 48% en Éxito y 34% en Falabella. Un descuento casi universal y de esa magnitud indica que el precio
+tachado funciona más como recurso comercial que como referencia real. Se marcaron como <b>sospechosos</b> los 18
+descuentos superiores al 60% (1,2% de los productos nuevos), por ejemplo un Tecno Pova 6 de 256 GB en Éxito anunciado de
+$1.999.900 a $539.973 (−73%) o un Infinix Note 60 publicado en tres tiendas con prácticamente el mismo precio tachado (≈ $3,5 M) y un
+descuento del 67%. Para el comprador, "cuánto descuenta la tienda" no es una señal confiable; la señal útil es <b>cuánto más barato
+está frente a las otras tiendas y frente a su propio histórico</b>.</p>
+
+<h3>3.7 Brechas de precio entre tiendas y patrones temporales</h3>
+<p>Entre los 95 productos comparables en al menos dos grupos comerciales, la brecha entre el precio máximo y el mínimo
+tiene mediana de <b>5,2% en celulares</b> (25% de ellos supera el 10%) y de <b>0% en televisores</b>, donde la mayoría de
+tiendas iguala precios pero aparecen casos extremos de hasta 49%. El ahorro mediano en celulares es de $65.000 y el máximo
+observado es de <b>$1.539.890</b> (iPhone 17 Pro 256 GB: $4.899.010 en Alkosto/Alkomprar frente a $6.438.900 en Falabella).
+En el TCL 50S5K, Alkosto, Alkomprar y Éxito lo tienen en $1.189.900 mientras que Falabella, como vendedor propio, lo
+publica a su precio de lista de $2.299.900 (brecha de 48%). Ajustando por presencia, Alkosto/Alkomprar ofrecen el mínimo
+en el 71% de los celulares comparables en que están, Éxito en el 58% y Falabella en el 26%.</p>
+<figure>
+  <img src="figuras/fig5_brechas_cambios.png" alt="Brechas entre tiendas y cambios de precio entre fechas">
+  <figcaption>Figura 5. Izquierda: brecha de precio del mismo producto entre tiendas (solo productos en ≥2 grupos
+  comerciales). Derecha: variación de precio entre el 28 y el 29 de septiembre para las 212 ofertas presentes en ambas
+  fechas; solo el 4,7% cambió, principalmente en Éxito (13% de sus ofertas).</figcaption>
+</figure>
+<p>Con dos fechas el análisis temporal es todavía limitado, pero ya muestra dos patrones: (1) el <b>surtido es estable</b>
+(115 de 116 productos de celulares se repiten de un día a otro, índice de Jaccard 99,1%), lo que valida la clave de
+homologación en el tiempo; y (2) los <b>precios cambian poco pero de forma abrupta</b>: el 4,7% de las ofertas cambió en un
+día, con variaciones entre −10,4% y +22,0%. Estos saltos son precisamente los eventos que el histórico debe capturar para
+decir si una oferta es realmente buena.</p>
+<figure>
+  <img src="figuras/fig6_precio_atributos.png" alt="Relación precio y atributos">
+  <figcaption>Figura 6. Relación entre el precio y los atributos usados en la homologación. El tamaño explica buena parte
+  del precio de un televisor (r = 0,87 con log-precio) y el almacenamiento el de un celular (r = 0,61), lo que confirma que
+  la variante (GB o pulgadas) debe formar parte de la clave: sin ella se compararían productos de precios muy distintos.</figcaption>
+</figure>
+
+<div class="caja"><b>Hallazgos clave del EDA:</b> (1) no hay identificador común entre tiendas y los faltantes del crudo
+son estructurales y complementarios; (2) el 21% de las ofertas válidas no es homologable, sobre todo en Falabella;
+(3) el 53% del catálogo está ausente en una tienda dada y solo el 6% de los productos está en las cuatro; (4) Alkosto y
+Alkomprar replican catálogo y precio (100% de coincidencia), así que no son observaciones independientes; (5) el
+descuento publicado es casi universal y poco creíble; (6) sí existe ahorro real entre grupos comerciales (mediana de 5%
+en celulares, hasta $1,5 M); (7) los precios cambian con poca frecuencia pero con saltos de hasta 22% en un día.</div>
+
+<h2>4. Análisis de calidad de los datos — Modelo de las V's</h2>
+<p>A diferencia de proyectos basados en series numéricas homogéneas, en este problema la <b>Variety</b> y la
+<b>Veracity</b> son las dimensiones críticas, porque la misma realidad (un producto con un precio) llega descrita de
+formas distintas y con señales comerciales que no siempre son verídicas.</p>
+<table>
+  <tr><th style="width:12%">V</th><th style="width:14%">Relevancia</th><th>Diagnóstico basado en evidencia</th></tr>
+  <tr><td><b>Variety</b></td><td>Muy relevante</td><td>Tres plataformas distintas (Hybris, VTEX, Next.js), dos formatos de lectura (HTML y JSON embebido)
+    y nomenclaturas diferentes para el mismo producto (<code>65U8000H</code> vs. <code>UN65U8000HKXZL</code>). Los identificadores
+    son complementarios (EAN solo en 2 tiendas, marca solo en las otras 2). El 21% de las ofertas válidas no se puede
+    homologar. Es la principal restricción técnica del proyecto.</td></tr>
+  <tr><td><b>Veracity</b></td><td>Muy relevante</td><td>Precio tachado presente en más del 91% de las ofertas, 18 descuentos &gt; 60%; duplicados del
+    8–14% en Falabella, Alkosto y Alkomprar (la misma tarjeta aparece en varias búsquedas, p. ej. "televisor hisense"
+    devuelve televisores TCL, o se repite en la misma página); mezcla de
+    vendedores (84,5% marketplace en Falabella, 15,9% en Éxito), reacondicionados (hasta 6,1%) y combos TV + barra
+    (7,9% de los televisores) que no son equivalentes al producto nuevo. Alkosto y Alkomprar duplican la misma
+    observación de mercado (100% de precios iguales en EAN comunes).</td></tr>
+  <tr><td><b>Volume</b></td><td>Relevante</td><td>≈1.950 ofertas crudas por día con ambas categorías, que se reducen a ≈440 filas comparables
+    (174 productos). En seis semanas de corrida diaria se proyectan ≈80.000 registros crudos y ≈18.000 observaciones
+    comparables, por encima de las 8.400 estimadas en la Entrega 1. El volumen es suficiente para el análisis; la
+    limitación es que solo se lee la primera página de cada búsqueda (muestra, no censo) y que hoy hay solo dos fechas.</td></tr>
+  <tr><td><b>Variability</b></td><td>Relevante</td><td>El mismo producto varía hasta 49% entre tiendas; el 4,7% de las ofertas cambia de precio de un día
+    a otro, con saltos de −10% a +22%; los descuentos cambian por campaña. La composición del surtido difiere entre
+    tiendas, por lo que sus distribuciones de precio no son comparables de forma agregada.</td></tr>
+  <tr><td><b>Value</b></td><td>Relevante</td><td>Hay señal aprovechable: ahorro mediano de $65.000 en celulares y máximos de $1,1–1,5 M en un mismo
+    producto. El valor para el consumidor depende de resolver Variety (más productos homologados) y Veracity (no
+    confundir un descuento anunciado con un ahorro real).</td></tr>
+  <tr><td><b>Velocity</b></td><td>Media</td><td>Los precios cambian a escala de días, no de minutos: una corrida por lote diaria (≈30 min con pausas)
+    es suficiente para el histórico. Para el futuro asistente conversacional bastará responder con la foto del día y, a
+    pedido del usuario, refrescar solo el producto consultado; no se requiere procesamiento en streaming.</td></tr>
+</table>
+
+<h2>5. Impacto de la calidad sobre el problema</h2>
+<p>Si los problemas identificados no se tratan, el comparador daría respuestas incorrectas justamente en las preguntas
+que el consumidor necesita resolver:</p>
+<ul>
+  <li><b>"¿Dónde está más barato?"</b> Si una oferta no se homologa (21%), la tienda que la publica desaparece de la
+    respuesta aunque tenga el mejor precio. El caso de Falabella es el más expuesto: casi un tercio de sus ofertas válidas
+    queda fuera.</li>
+  <li><b>"¿Cuántas tiendas lo tienen?"</b> Contar Alkosto y Alkomprar como competidores independientes infla la cobertura
+    y crea comparaciones con ahorro cero en el 45% de los productos comparables, lo que sesgaría cualquier indicador
+    de "tienda más barata" a favor de ese grupo.</li>
+  <li><b>"¿Es una buena oferta?"</b> Usar el descuento publicado como medida de oportunidad llevaría a recomendar
+    productos con precios tachados inflados. Sin histórico, un descuento del 67% no se puede distinguir de un precio normal.</li>
+  <li><b>"¿Cuánto ahorro?"</b> Mezclar productos nuevos con reacondicionados, vendedores externos o combos produciría
+    ahorros ficticios: la opción "más barata" no sería el mismo producto ni tendría las mismas garantías.</li>
+  <li>Los duplicados inflan el volumen y el peso de ciertas tiendas en los promedios, y la ausencia de productos, si se
+    imputara, inventaría precios que ninguna tienda ofrece.</li>
+</ul>
+
+<h2>6. Transformaciones requeridas</h2>
+<p>Cada transformación responde a un hallazgo de las secciones anteriores. Se indica cuáles ya están implementadas en el
+pipeline (<span class="estado ok">Implementada</span>) y cuáles se proponen para la siguiente etapa
+(<span class="estado prop">Propuesta</span>).</p>
+<ul>
+  <li><b>Deduplicación</b> por tienda + URL + precio antes de cualquier conteo. <span class="estado ok">Implementada</span></li>
+  <li><b>Filtro de categoría y de rango de precio:</b> se descartan accesorios (fundas, soportes, cargadores) y precios fuera
+    de un rango razonable por categoría (celular: $0,1–12 M; TV: $0,3–40 M). <span class="estado ok">Implementada</span></li>
+  <li><b>Extracción y normalización de atributos:</b> marca (con alias de submarcas: Redmi/POCO → Xiaomi, Galaxy → Samsung),
+    modelo, almacenamiento y RAM en celulares; pulgadas y código de modelo en TV, eliminando el prefijo de línea y el
+    sufijo regional (<code>UN65U8000HKXZL</code> → <code>65u8000h</code>). Validado con 43 pruebas unitarias.
+    <span class="estado ok">Implementada</span></li>
+  <li><b>Clave canónica</b> <code>producto_id = categoría | marca | modelo | variante</code> y colapso de colores
+    conservando el menor precio. <span class="estado ok">Implementada</span> Para el asistente se conservará además el
+    color como atributo consultable. <span class="estado prop">Propuesta</span></li>
+  <li><b>Segmentación de la oferta:</b> condición (nuevo / reacondicionado), tipo de vendedor (tienda / marketplace) y combo;
+    la comparación por defecto es nuevo + vendedor propio + sin combo. <span class="estado ok">Implementada</span></li>
+  <li><b>Marca de descuento sospechoso</b> (&gt; 60%) y campo <code>descuento_pct_valido</code>, que excluye esos casos
+    de los promedios. <span class="estado ok">Implementada</span> Como indicador de oportunidad se usará el precio
+    frente al mínimo de las demás tiendas y frente al mínimo histórico propio, no el precio tachado.
+    <span class="estado prop">Propuesta</span></li>
+  <li><b>Grupo comercial:</b> atributo que une Alkosto y Alkomprar para que los indicadores de competencia y ahorro se
+    calculen entre grupos distintos (ya aplicado en el EDA). <span class="estado prop">Propuesta en el pipeline</span></li>
+  <li><b>Disponibilidad explícita, sin imputación:</b> tabla producto × tienda × fecha con estado "disponible / no
+    disponible", en lugar de rellenar precios faltantes. <span class="estado prop">Propuesta</span></li>
+  <li><b>Recuperación de no homologables:</b> para las ofertas sin código de modelo, leer la ficha del producto (donde
+    sí aparece la referencia) o emparejar por similitud de texto con umbral y revisión, priorizando Falabella.
+    <span class="estado prop">Propuesta</span></li>
+  <li><b>Carga histórica idempotente y con esquema evolutivo:</b> una corrida por fecha reemplaza solo esa fecha y las
+    columnas nuevas se agregan sin perder el histórico. <span class="estado ok">Implementada</span> Programación diaria
+    automática (script <code>run_diario.bat</code> listo) para acumular las seis semanas previstas.
+    <span class="estado prop">Propuesta</span></li>
+</ul>
+
+<h2>7. Coherencia y trazabilidad</h2>
+<p>La siguiente tabla hace explícita la cadena entre lo hallado, su efecto sobre el problema y la transformación que lo
+atiende.</p>
+<table>
+  <tr><th style="width:30%">Hallazgo (EDA / calidad)</th><th style="width:36%">Impacto sobre el problema</th><th>Transformación asociada</th></tr>
+  <tr><td>EAN solo en 2 tiendas y marca solo en las otras 2 (14,3% de faltante estructural)</td><td>No hay llave común; el emparejamiento directo es imposible</td><td>Extracción de atributos y clave canónica <code>producto_id</code></td></tr>
+  <tr><td>Mismo TV con códigos distintos (<code>65U8000H</code> / <code>UN65U8000HKXZL</code>)</td><td>El mismo producto se trataría como dos productos distintos</td><td>Normalización del código de modelo (sin prefijo ni sufijo regional)</td></tr>
+  <tr><td>21% de ofertas válidas no homologables (Falabella 29–32%)</td><td>Tiendas omitidas en la respuesta de "mejor precio"</td><td>Enriquecimiento con la ficha del producto y similitud de texto</td></tr>
+  <tr><td>53% de ausencia producto × tienda; 40% de productos en una sola tienda</td><td>Imputar precios inventaría ofertas inexistentes</td><td>Disponibilidad explícita sin imputación; comparación solo con ≥ 2 tiendas</td></tr>
+  <tr><td>Alkosto y Alkomprar: 71% de EAN comunes y 100% de precios iguales</td><td>Comparaciones aparentes (45% de los comparables) con ahorro cero</td><td>Atributo de grupo comercial; indicadores entre grupos</td></tr>
+  <tr><td>Precio tachado en &gt; 91% de las ofertas; 18 descuentos &gt; 60%</td><td>Recomendar ofertas con descuentos ficticios</td><td>Marca de descuento sospechoso y oportunidad frente a otras tiendas e histórico</td></tr>
+  <tr><td>Marketplace (84,5% en Falabella), reacondicionados y combos TV + barra (7,9%)</td><td>Ahorros ficticios al comparar productos no equivalentes</td><td>Segmentación por condición, tipo de vendedor y combo</td></tr>
+  <tr><td>Duplicados del 8–14% en tres tiendas</td><td>Volumen y pesos por tienda inflados</td><td>Deduplicación por tienda + URL + precio</td></tr>
+  <tr><td>Precio correlacionado con GB (r = 0,61) y pulgadas (r = 0,87)</td><td>Sin la variante se compararían productos de precio muy distinto</td><td>Variante obligatoria en la clave (GB / pulgadas)</td></tr>
+  <tr><td>4,7% de precios cambia en un día (−10% a +22%); surtido estable (99%)</td><td>Una foto única no permite juzgar si una oferta es buena</td><td>Carga histórica idempotente y corrida diaria programada</td></tr>
+</table>
+
+<h2>8. Conclusiones y siguientes pasos</h2>
+<p>El pipeline ya extrae de forma reproducible las cuatro tiendas previstas en la Entrega 1, en las dos categorías, y
+conserva por separado el dato crudo y el transformado. El EDA muestra que el valor del proyecto existe (ahorros de hasta
+$1,5 M en un mismo producto) pero que está condicionado por dos problemas de calidad: la heterogeneidad de las
+descripciones (Variety) y la baja fiabilidad de algunas señales comerciales (Veracity). Las transformaciones propuestas
+están dirigidas a que la respuesta al consumidor sea correcta: comparar el mismo producto, en condiciones equivalentes,
+entre competidores reales y frente a su propio histórico.</p>
+<p>Para la siguiente entrega se prevé: (1) programar la corrida diaria y acumular al menos seis semanas; (2) implementar
+el grupo comercial, la tabla de disponibilidad y la recuperación de ofertas no homologables; (3) construir los
+indicadores para el consumidor (tienda más barata, ahorro potencial, precio frente al mínimo histórico); y (4) un
+prototipo de consulta en lenguaje natural sobre el catálogo homologado, base del futuro asistente conversacional.</p>
+
+<p class="nota">Reproducibilidad: <code>python -m src.pipeline</code> (extracción y carga), <code>python -m src.eda</code>
+(cifras y figuras de este informe, guardadas en <code>data/reportes/eda/metricas.json</code> y
+<code>eda_tablas.xlsx</code>) y <code>python -m src.informe</code> (este PDF). Datos obtenidos exclusivamente de páginas
+públicas de búsqueda, con pausas entre peticiones y para uso académico.</p>
+
+</body>
+</html>
