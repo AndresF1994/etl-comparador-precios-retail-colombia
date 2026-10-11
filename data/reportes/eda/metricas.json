@@ -1,136 +1,136 @@
 {
   "fechas": [
-    "2026-09-28",
-    "2026-09-29"
+    "2026-09-30",
+    "2026-10-10"
   ],
-  "ultima_fecha": "2026-09-29",
+  "ultima_fecha": "2026-10-10",
   "crudos_por_fecha": {
-    "2026-09-28": {
-      "celular": 1112,
+    "2026-09-30": {
+      "celular": 16,
       "televisor": 0
     },
-    "2026-09-29": {
-      "celular": 1104,
-      "televisor": 843
+    "2026-10-10": {
+      "celular": 1158,
+      "televisor": 871
     }
   },
-  "crudos_total": 3059,
+  "crudos_total": 2045,
   "estructura": [
     {
       "tienda": "Alkosto",
-      "registros_crudos": 661,
-      "crudos_ult_celular": 241,
-      "crudos_ult_televisor": 181,
+      "registros_crudos": 450,
+      "crudos_ult_celular": 250,
+      "crudos_ult_televisor": 200,
       "acceso": "HTML renderizado (Hybris + Algolia)",
       "publica_ean": true
     },
     {
       "tienda": "Alkomprar",
-      "registros_crudos": 605,
-      "crudos_ult_celular": 214,
+      "registros_crudos": 415,
+      "crudos_ult_celular": 236,
       "crudos_ult_televisor": 179,
       "acceso": "HTML renderizado (Hybris + Algolia)",
       "publica_ean": true
     },
     {
       "tienda": "Exito",
-      "registros_crudos": 414,
-      "crudos_ult_celular": 142,
-      "crudos_ult_televisor": 114,
+      "registros_crudos": 289,
+      "crudos_ult_celular": 156,
+      "crudos_ult_televisor": 117,
       "acceso": "HTML renderizado (VTEX FastStore)",
       "publica_ean": false
     },
     {
       "tienda": "Falabella",
-      "registros_crudos": 1379,
-      "crudos_ult_celular": 507,
-      "crudos_ult_televisor": 369,
+      "registros_crudos": 891,
+      "crudos_ult_celular": 516,
+      "crudos_ult_televisor": 375,
       "acceso": "JSON embebido (__NEXT_DATA__)",
       "publica_ean": false
     }
   ],
   "duplicados_ult": {
-    "Alkosto": 60,
-    "Alkomprar": 56,
-    "Exito": 0,
-    "Falabella": 73
+    "Alkosto": 71,
+    "Alkomprar": 81,
+    "Exito": 1,
+    "Falabella": 77
   },
   "duplicados_pct_ult": {
-    "Alkosto": 14.2,
-    "Alkomprar": 14.2,
-    "Exito": 0.0,
-    "Falabella": 8.3
+    "Alkosto": 15.8,
+    "Alkomprar": 19.5,
+    "Exito": 0.4,
+    "Falabella": 8.6
   },
-  "alk_ean_comunes": 291,
-  "alk_ean_union": 408,
-  "alk_solape_pct": 71.3,
+  "alk_ean_comunes": 301,
+  "alk_ean_union": 412,
+  "alk_solape_pct": 73.1,
   "alk_mismo_precio_pct": 100.0,
   "embudo": {
     "Alkosto": {
-      "crudas": 422,
-      "validas": 314,
-      "homologadas": 266,
-      "unicas_sin_color": 187,
-      "comparables": 158
+      "crudas": 450,
+      "validas": 328,
+      "homologadas": 267,
+      "unicas_sin_color": 182,
+      "comparables": 155
     },
     "Alkomprar": {
-      "crudas": 393,
-      "validas": 285,
-      "homologadas": 243,
-      "unicas_sin_color": 166,
-      "comparables": 158
+      "crudas": 415,
+      "validas": 289,
+      "homologadas": 239,
+      "unicas_sin_color": 162,
+      "comparables": 151
     },
     "Exito": {
-      "crudas": 256,
-      "validas": 227,
-      "homologadas": 207,
-      "unicas_sin_color": 164,
-      "comparables": 71
+      "crudas": 273,
+      "validas": 238,
+      "homologadas": 217,
+      "unicas_sin_color": 172,
+      "comparables": 75
     },
     "Falabella": {
-      "crudas": 876,
-      "validas": 670,
-      "homologadas": 466,
-      "unicas_sin_color": 282,
+      "crudas": 891,
+      "validas": 702,
+      "homologadas": 491,
+      "unicas_sin_color": 293,
       "comparables": 49
     }
   },
   "embudo_total": {
-    "crudas": 1947,
-    "validas": 1496,
-    "homologadas": 1182,
-    "unicas_sin_color": 799,
-    "comparables": 436
+    "crudas": 2029,
+    "validas": 1557,
+    "homologadas": 1214,
+    "unicas_sin_color": 809,
+    "comparables": 430
   },
   "no_homologable_pct": {
     "Alkosto": {
-      "celular": 17.7,
-      "televisor": 11.7
+      "celular": 20.7,
+      "televisor": 15.6
     },
     "Alkomprar": {
-      "celular": 17.2,
-      "televisor": 11.5
+      "celular": 21.9,
+      "televisor": 10.8
     },
     "Exito": {
-      "celular": 7.9,
-      "televisor": 10.0
+      "celular": 8.7,
+      "televisor": 9.0
     },
     "Falabella": {
-      "celular": 29.3,
-      "televisor": 32.2
+      "celular": 28.2,
+      "televisor": 32.7
     }
   },
-  "no_homologable_global_pct": 21.0,
+  "no_homologable_global_pct": 22.0,
   "faltante_atributo_pct": {
     "celular": {
-      "marca": 0.0,
-      "modelo": 18.6,
-      "variante": 3.1
+      "marca": 0.2,
+      "modelo": 18.5,
+      "variante": 4.1
     },
     "televisor": {
-      "marca": 1.0,
-      "modelo": 20.0,
-      "variante": 2.3
+      "marca": 0.9,
+      "modelo": 21.3,
+      "variante": 2.0
     }
   },
   "ean_faltante_pct": {
@@ -179,191 +179,184 @@
   },
   "faltante_crudo_global_pct": 14.3,
   "catalogo_homologado": {
-    "celular": 115,
-    "televisor": 180
+    "celular": 118,
+    "televisor": 185
   },
   "ausencia_pct": {
     "celular": {
-      "Alkosto": 41.7,
-      "Alkomprar": 49.6,
-      "Exito": 53.0,
-      "Falabella": 70.4
+      "Alkosto": 47.5,
+      "Alkomprar": 53.4,
+      "Exito": 50.0,
+      "Falabella": 72.9
     },
     "televisor": {
-      "Alkosto": 37.2,
-      "Alkomprar": 40.0,
-      "Exito": 55.0,
-      "Falabella": 76.7
+      "Alkosto": 40.5,
+      "Alkomprar": 42.2,
+      "Exito": 55.1,
+      "Falabella": 71.4
     }
   },
   "productos_por_n_tiendas": {
     "celular": {
-      "1": 49,
-      "2": 41,
-      "3": 18,
-      "4": 7
+      "1": 57,
+      "2": 38,
+      "3": 17,
+      "4": 6
     },
     "televisor": {
-      "1": 72,
-      "2": 62,
-      "3": 36,
-      "4": 10
+      "1": 74,
+      "2": 67,
+      "3": 31,
+      "4": 13
     }
   },
-  "ausencia_global_pct": 52.8,
+  "ausencia_global_pct": 53.7,
   "solo_una_tienda_pct": {
-    "celular": 42.6,
+    "celular": 48.3,
     "televisor": 40.0
   },
   "composicion": {
     "Alkosto": {
-      "n": 314,
+      "n": 328,
       "marketplace_pct": 0.0,
-      "reacondicionado_pct": 2.9
+      "reacondicionado_pct": 4.3
     },
     "Alkomprar": {
-      "n": 285,
+      "n": 289,
       "marketplace_pct": 0.0,
       "reacondicionado_pct": 0.0
     },
     "Exito": {
-      "n": 227,
-      "marketplace_pct": 15.9,
-      "reacondicionado_pct": 1.3
+      "n": 238,
+      "marketplace_pct": 14.7,
+      "reacondicionado_pct": 0.8
     },
     "Falabella": {
-      "n": 670,
-      "marketplace_pct": 84.5,
-      "reacondicionado_pct": 6.1
+      "n": 702,
+      "marketplace_pct": 82.9,
+      "reacondicionado_pct": 6.6
     }
   },
-  "combos_tv": 48,
-  "combos_tv_pct": 7.9,
+  "combos_tv": 61,
+  "combos_tv_pct": 9.5,
   "descriptivas": [
     {
       "categoria": "celular",
       "tienda": "Alkomprar",
-      "n": 163.0,
-      "media": 1875675.0306748466,
-      "desv": 1698533.5777073195,
-      "minimo": 349900.0,
+      "n": 169.0,
+      "media": 1956289.171597633,
+      "desv": 1804787.467205666,
+      "minimo": 399050.0,
       "mediana": 1149050.0,
       "maximo": 8869010.0,
-      "cv_pct": 90.55585588811759
+      "cv_pct": 92.25565900013439
     },
     {
       "categoria": "celular",
       "tienda": "Alkosto",
-      "n": 179.0,
-      "media": 2003579.6648044693,
-      "desv": 1862529.0117118785,
+      "n": 184.0,
+      "media": 1905011.25,
+      "desv": 1730931.278153062,
       "minimo": 399050.0,
-      "mediana": 1149050.0,
-      "maximo": 8869010.0,
-      "cv_pct": 92.96006764441003
+      "mediana": 1099050.0,
+      "maximo": 7999990.0,
+      "cv_pct": 90.8619976996494
     },
     {
       "categoria": "celular",
       "tienda": "Exito",
-      "n": 124.0,
-      "media": 1244571.935483871,
-      "desv": 986326.5850269162,
+      "n": 136.0,
+      "media": 1553698.6102941176,
+      "desv": 1459916.2031565257,
       "minimo": 307900.0,
-      "mediana": 1055003.0,
-      "maximo": 7999900.0,
-      "cv_pct": 79.25026725300913
+      "mediana": 1086950.0,
+      "maximo": 7064400.0,
+      "cv_pct": 93.96392540250527
     },
     {
       "categoria": "celular",
       "tienda": "Falabella",
-      "n": 368.0,
-      "media": 1399062.410326087,
-      "desv": 1570856.002822002,
+      "n": 372.0,
+      "media": 1432948.7607526882,
+      "desv": 1616452.494596402,
       "minimo": 317990.0,
-      "mediana": 899900.0,
+      "mediana": 904900.0,
       "maximo": 11719900.0,
-      "cv_pct": 112.27919435387261
+      "cv_pct": 112.80602202044714
     },
     {
       "categoria": "televisor",
       "tienda": "Alkomprar",
-      "n": 122.0,
-      "media": 3330712.295081967,
-      "desv": 3042256.06030445,
+      "n": 120.0,
+      "media": 3333809.1666666665,
+      "desv": 3021886.9682545816,
       "minimo": 509900.0,
       "mediana": 2499900.0,
-      "maximo": 20099900.0,
-      "cv_pct": 91.33950310858602
+      "maximo": 17599900.0,
+      "cv_pct": 90.64366966379295
     },
     {
       "categoria": "televisor",
       "tienda": "Alkosto",
-      "n": 126.0,
-      "media": 3849178.5714285714,
-      "desv": 4593349.283677124,
+      "n": 130.0,
+      "media": 3253746.153846154,
+      "desv": 2845410.38977252,
       "minimo": 509900.0,
-      "mediana": 2524900.0,
-      "maximo": 39999900.0,
-      "cv_pct": 119.33323431062239
+      "mediana": 2499900.0,
+      "maximo": 17599900.0,
+      "cv_pct": 87.45028822881733
     },
     {
       "categoria": "televisor",
       "tienda": "Exito",
       "n": 100.0,
-      "media": 2034423.16,
-      "desv": 1386602.9075170446,
-      "minimo": 499900.0,
-      "mediana": 1699900.0,
+      "media": 2009303.08,
+      "desv": 1365011.9563158432,
+      "minimo": 488200.0,
+      "mediana": 1674900.0,
       "maximo": 8999900.0,
-      "cv_pct": 68.15705477502746
+      "cv_pct": 67.93459731897903
     },
     {
       "categoria": "televisor",
       "tienda": "Falabella",
-      "n": 261.0,
-      "media": 2464865.111111111,
-      "desv": 1977042.3533867528,
+      "n": 284.0,
+      "media": 2611145.4647887326,
+      "desv": 3108077.9994075284,
       "minimo": 310900.0,
-      "mediana": 1896900.0,
-      "maximo": 13599900.0,
-      "cv_pct": 80.20894711335917
+      "mediana": 1857450.0,
+      "maximo": 39999900.0,
+      "cv_pct": 119.03120838421013
     }
   ],
   "descuentos": {
     "Alkosto": {
-      "con_descuento_pct": 95.7,
-      "descuento_mediano": 39.2,
-      "sospechosos": 5,
-      "sospechosos_pct": 1.6
+      "con_descuento_pct": 94.9,
+      "descuento_mediano": 39.3,
+      "sospechosos": 2,
+      "sospechosos_pct": 0.6
     },
     "Alkomprar": {
-      "con_descuento_pct": 96.5,
-      "descuento_mediano": 39.4,
-      "sospechosos": 4,
-      "sospechosos_pct": 1.4
+      "con_descuento_pct": 94.5,
+      "descuento_mediano": 40.0,
+      "sospechosos": 3,
+      "sospechosos_pct": 1.0
     },
     "Exito": {
-      "con_descuento_pct": 91.1,
-      "descuento_mediano": 47.9,
-      "sospechosos": 7,
-      "sospechosos_pct": 3.1
+      "con_descuento_pct": 95.8,
+      "descuento_mediano": 47.0,
+      "sospechosos": 9,
+      "sospechosos_pct": 3.8
     },
     "Falabella": {
-      "con_descuento_pct": 92.2,
-      "descuento_mediano": 34.3,
-      "sospechosos": 2,
-      "sospechosos_pct": 0.3
+      "con_descuento_pct": 91.6,
+      "descuento_mediano": 34.9,
+      "sospechosos": 6,
+      "sospechosos_pct": 0.9
     }
   },
   "descuento_umbral": 60,
   "ejemplos_sospechosos": [
-    {
-      "tienda": "Exito",
-      "nombre": "Celular TECNO MOBILE POVA 6 5G 256 GB 8 GB RAM Negro",
-      "precio_original": 1999900,
-      "precio_actual": 539973,
-      "descuento_pct": 73.0
-    },
     {
       "tienda": "Falabella",
       "nombre": "Televisor Samusng 65\" The Frame Qn65Ls03Hekxzl + Marco Vg-Scfh65Tkbzx",
@@ -373,294 +366,301 @@
     },
     {
       "tienda": "Exito",
+      "nombre": "Celular Oppo Reno 11 256Gb+12 Verde",
+      "precio_original": 2399900,
+      "precio_actual": 749900,
+      "descuento_pct": 68.75286470269594
+    },
+    {
+      "tienda": "Falabella",
+      "nombre": "Combo Televisor 32 Pulgadas Smart TV HD + Crispetera Universal L52020",
+      "precio_original": 2369900,
+      "precio_actual": 749900,
+      "descuento_pct": 68.35731465462678
+    },
+    {
+      "tienda": "Exito",
       "nombre": "Celular INFINIX Note 60 5G 256 GB 8 GB RAM Negro",
       "precio_original": 3499900,
-      "precio_actual": 1149000,
-      "descuento_pct": 67.1704905854453
+      "precio_actual": 1149900,
+      "descuento_pct": 67.14477556501615
     },
     {
-      "tienda": "Alkosto",
-      "nombre": "Celular INFINIX Note 60 256GB 5G Azul",
-      "precio_original": 3499050,
-      "precio_actual": 1149050,
-      "descuento_pct": 67.16108658064333
-    },
-    {
-      "tienda": "Alkomprar",
-      "nombre": "Celular INFINIX Note 60 256GB 5G Café",
-      "precio_original": 3499050,
-      "precio_actual": 1149050,
-      "descuento_pct": 67.16108658064333
+      "tienda": "Exito",
+      "nombre": "Celular INFINIX Note 60 5G 256 GB 8 GB RAM Oro rosa",
+      "precio_original": 3499900,
+      "precio_actual": 1149900,
+      "descuento_pct": 67.14477556501615
     }
   ],
-  "outliers_iqr": 100,
-  "outliers_iqr_pct": 7.0,
+  "outliers_iqr": 96,
+  "outliers_iqr_pct": 6.5,
   "comparables_ult": {
-    "celular": 66,
-    "televisor": 108
+    "celular": 61,
+    "televisor": 111
   },
   "brecha_ult": {
     "celular": {
-      "count": 66.0,
-      "mean": 3.7,
-      "std": 6.0,
+      "count": 61.0,
+      "mean": 4.4,
+      "std": 7.3,
       "min": 0.0,
       "25%": 0.0,
       "50%": 0.0,
-      "75%": 5.5,
-      "max": 23.9
+      "75%": 7.7,
+      "max": 28.3
     },
     "televisor": {
-      "count": 108.0,
-      "mean": 1.7,
-      "std": 6.7,
+      "count": 111.0,
+      "mean": 1.0,
+      "std": 2.2,
       "min": 0.0,
       "25%": 0.0,
       "50%": 0.0,
       "75%": 0.0,
-      "max": 48.9
+      "max": 11.1
     }
   },
   "brecha_cero_pct": {
-    "celular": 56.1,
-    "televisor": 76.9
+    "celular": 60.7,
+    "televisor": 79.3
   },
   "brecha_mayor_10_pct": {
-    "celular": 16.7,
-    "televisor": 1.9
+    "celular": 21.3,
+    "televisor": 0.9
   },
   "ahorro_ult": {
     "celular": {
-      "median": 470.0,
-      "max": 1539890
+      "median": 50.0,
+      "max": 1575400
     },
     "televisor": {
       "median": 0.0,
-      "max": 1110000
+      "max": 1000000
     }
   },
   "comparables_solo_grupo_alk": {
-    "celular": 28,
-    "televisor": 51
+    "celular": 29,
+    "televisor": 53
   },
   "comparables_multigrupo": {
-    "celular": 38,
-    "televisor": 57
+    "celular": 32,
+    "televisor": 58
   },
   "brecha_multigrupo": {
     "celular": {
-      "count": 38.0,
-      "mean": 6.5,
-      "std": 6.7,
+      "count": 32.0,
+      "mean": 8.5,
+      "std": 8.3,
       "min": 0.0,
-      "25%": 0.9,
-      "50%": 5.2,
-      "75%": 10.5,
-      "max": 23.9
+      "25%": 0.7,
+      "50%": 7.6,
+      "75%": 13.3,
+      "max": 28.3
     },
     "televisor": {
-      "count": 57.0,
-      "mean": 3.2,
-      "std": 9.0,
+      "count": 58.0,
+      "mean": 1.9,
+      "std": 2.8,
       "min": 0.0,
       "25%": 0.0,
       "50%": 0.0,
-      "75%": 2.9,
-      "max": 48.9
+      "75%": 4.3,
+      "max": 11.1
     }
   },
   "ahorro_multigrupo": {
     "celular": {
-      "median": 65000.0,
-      "mean": 155693.0,
-      "max": 1539890
+      "median": 56851.0,
+      "mean": 250531.0,
+      "max": 1575400
     },
     "televisor": {
       "median": 0.0,
-      "mean": 86316.0,
-      "max": 1110000
+      "mean": 53560.0,
+      "max": 1000000
     }
   },
   "brecha_solo_alk_cero_pct": 100.0,
   "top_ahorro": [
     {
       "categoria": "celular",
-      "producto_id": "celular | apple | iphone 17 pro | 256gb",
-      "min": 4899010,
-      "max": 6438900,
-      "ahorro_cop": 1539890,
-      "brecha_pct": 23.91542033577164,
-      "n_tiendas": 3,
-      "n_grupos": 2
+      "producto_id": "celular | apple | iphone 17 pro max | 256gb",
+      "min": 5489000,
+      "max": 7064400,
+      "ahorro_cop": 1575400,
+      "brecha_pct": 22.300549232772777,
+      "n_tiendas": 4,
+      "n_grupos": 3
     },
     {
       "categoria": "celular",
-      "producto_id": "celular | samsung | s26 ultra | 512gb",
-      "min": 6799990,
-      "max": 7999900,
-      "ahorro_cop": 1199910,
-      "brecha_pct": 14.999062488281103,
-      "n_tiendas": 3,
-      "n_grupos": 2
-    },
-    {
-      "categoria": "televisor",
-      "producto_id": "televisor | tcl | 50s5k | 50in",
-      "min": 1189900,
-      "max": 2299900,
-      "ahorro_cop": 1110000,
-      "brecha_pct": 48.26296795512848,
-      "n_tiendas": 4,
-      "n_grupos": 3
-    },
-    {
-      "categoria": "televisor",
-      "producto_id": "televisor | tcl | 43s5k | 43in",
-      "min": 969900,
-      "max": 1899900,
-      "ahorro_cop": 930000,
-      "brecha_pct": 48.949944733933364,
-      "n_tiendas": 4,
-      "n_grupos": 3
-    },
-    {
-      "categoria": "televisor",
-      "producto_id": "televisor | lg | 77b6p | 77in",
-      "min": 8499900,
-      "max": 8999900,
-      "ahorro_cop": 500000,
-      "brecha_pct": 5.5556172846364955,
+      "producto_id": "celular | samsung | s26 | 512gb",
+      "min": 3799900,
+      "max": 5299990,
+      "ahorro_cop": 1500090,
+      "brecha_pct": 28.303638308751527,
       "n_tiendas": 2,
       "n_grupos": 2
     },
     {
       "categoria": "celular",
-      "producto_id": "celular | apple | iphone 17 | 256gb",
-      "min": 4199010,
-      "max": 4668900,
-      "ahorro_cop": 469890,
-      "brecha_pct": 10.064254963695946,
+      "producto_id": "celular | samsung | s26 ultra | 512gb",
+      "min": 6699900,
+      "max": 7999990,
+      "ahorro_cop": 1300090,
+      "brecha_pct": 16.25114531393164,
       "n_tiendas": 3,
+      "n_grupos": 2
+    },
+    {
+      "categoria": "televisor",
+      "producto_id": "televisor | lg | 77b6p | 77in",
+      "min": 7999900,
+      "max": 8999900,
+      "ahorro_cop": 1000000,
+      "brecha_pct": 11.111234569272991,
+      "n_tiendas": 2,
       "n_grupos": 2
     },
     {
       "categoria": "celular",
       "producto_id": "celular | apple | iphone 16 | 128gb",
-      "min": 3749010,
-      "max": 4199900,
-      "ahorro_cop": 450890,
-      "brecha_pct": 10.735731803138169,
+      "min": 2999900,
+      "max": 3749010,
+      "ahorro_cop": 749110,
+      "brecha_pct": 19.981541793700202,
       "n_tiendas": 3,
       "n_grupos": 2
     },
     {
       "categoria": "celular",
-      "producto_id": "celular | apple | iphone 17 pro max | 256gb",
-      "min": 5499010,
-      "max": 5799900,
-      "ahorro_cop": 300890,
-      "brecha_pct": 5.187848066345971,
+      "producto_id": "celular | apple | iphone 17 | 256gb",
+      "min": 4199000,
+      "max": 4709200,
+      "ahorro_cop": 510200,
+      "brecha_pct": 10.834111951074492,
+      "n_tiendas": 2,
+      "n_grupos": 2
+    },
+    {
+      "categoria": "celular",
+      "producto_id": "celular | apple | iphone 15 | 128gb",
+      "min": 3299010,
+      "max": 3745800,
+      "ahorro_cop": 446790,
+      "brecha_pct": 11.927759090181004,
+      "n_tiendas": 3,
+      "n_grupos": 2
+    },
+    {
+      "categoria": "celular",
+      "producto_id": "celular | infinix | note 60 | 256gb",
+      "min": 1149900,
+      "max": 1469050,
+      "ahorro_cop": 319150,
+      "brecha_pct": 21.724924270787245,
       "n_tiendas": 3,
       "n_grupos": 2
     }
   ],
   "veces_mas_barata": {
     "celular": {
-      "Alkosto": 41,
-      "Alkomprar": 43,
-      "Exito": 15,
-      "Falabella": 6
+      "Alkosto": 33,
+      "Alkomprar": 33,
+      "Exito": 18,
+      "Falabella": 11
     },
     "televisor": {
-      "Alkosto": 92,
-      "Alkomprar": 91,
-      "Exito": 40,
-      "Falabella": 15
+      "Alkosto": 90,
+      "Alkomprar": 88,
+      "Exito": 43,
+      "Falabella": 23
     }
   },
   "presencia_comparables": {
     "celular": {
-      "Alkosto": 58,
-      "Alkomprar": 57,
+      "Alkosto": 54,
+      "Alkomprar": 53,
       "Exito": 26,
-      "Falabella": 23
+      "Falabella": 18
     },
     "televisor": {
-      "Alkosto": 100,
-      "Alkomprar": 101,
-      "Exito": 45,
-      "Falabella": 26
+      "Alkosto": 101,
+      "Alkomprar": 98,
+      "Exito": 49,
+      "Falabella": 31
     }
   },
   "cambios": {
-    "desde": "2026-09-28",
-    "hasta": "2026-09-29",
-    "n_total": 212,
-    "cambiaron_pct_total": 4.7,
+    "desde": "2026-09-30",
+    "hasta": "2026-10-10",
+    "n_total": 4,
+    "cambiaron_pct_total": 100.0,
     "por_tienda": {
       "Alkosto": {
-        "n": 67,
-        "cambiaron_pct": 3.0,
-        "var_media_pct": -2.6,
-        "subieron": 0,
-        "bajaron": 2
+        "n": NaN,
+        "cambiaron_pct": NaN,
+        "var_media_pct": NaN,
+        "subieron": NaN,
+        "bajaron": NaN
       },
       "Alkomprar": {
-        "n": 58,
-        "cambiaron_pct": 1.7,
-        "var_media_pct": -2.3,
-        "subieron": 0,
-        "bajaron": 1
+        "n": NaN,
+        "cambiaron_pct": NaN,
+        "var_media_pct": NaN,
+        "subieron": NaN,
+        "bajaron": NaN
       },
       "Exito": {
-        "n": 54,
-        "cambiaron_pct": 13.0,
-        "var_media_pct": 0.1,
-        "subieron": 1,
-        "bajaron": 6
+        "n": 4.0,
+        "cambiaron_pct": 100.0,
+        "var_media_pct": -14.3,
+        "subieron": 0.0,
+        "bajaron": 4.0
       },
       "Falabella": {
-        "n": 33,
-        "cambiaron_pct": 0.0,
+        "n": NaN,
+        "cambiaron_pct": NaN,
         "var_media_pct": NaN,
-        "subieron": 0,
-        "bajaron": 0
+        "subieron": NaN,
+        "bajaron": NaN
       }
     },
-    "max_subida_pct": 22.0,
-    "max_bajada_pct": -10.4
+    "max_subida_pct": -3.3,
+    "max_bajada_pct": -19.5
   },
   "rotacion_celulares": {
-    "f0": 116,
-    "f1": 115,
-    "comunes": 115,
-    "jaccard_pct": 99.1
+    "f0": 4,
+    "f1": 118,
+    "comunes": 4,
+    "jaccard_pct": 3.4
   },
-  "corr_precio_almacenamiento": 0.61,
-  "corr_precio_pulgadas": 0.87,
+  "corr_precio_almacenamiento": 0.64,
+  "corr_precio_pulgadas": 0.89,
   "solape_catalogo_pct": {
     "Alkosto": {
       "Alkosto": 100.0,
-      "Alkomprar": 83.3,
-      "Exito": 32.8,
-      "Falabella": 20.6
+      "Alkomprar": 86.0,
+      "Exito": 35.5,
+      "Falabella": 18.6
     },
     "Alkomprar": {
-      "Alkosto": 90.4,
+      "Alkosto": 91.4,
       "Alkomprar": 100.0,
-      "Exito": 36.1,
-      "Falabella": 21.7
+      "Exito": 34.6,
+      "Falabella": 19.8
     },
     "Exito": {
-      "Alkosto": 43.7,
-      "Alkomprar": 44.4,
+      "Alkosto": 43.0,
+      "Alkomprar": 39.4,
       "Exito": 100.0,
-      "Falabella": 18.5
+      "Falabella": 23.9
     },
     "Falabella": {
-      "Alkosto": 48.7,
-      "Alkomprar": 47.4,
-      "Exito": 32.9,
+      "Alkosto": 37.6,
+      "Alkomprar": 37.6,
+      "Exito": 40.0,
       "Falabella": 100.0
     }
   }
